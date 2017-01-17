@@ -14,13 +14,13 @@ app.use(bodyparser.json());
 
 app.get('/',function(req,res){
   var id = shortid.generate();
-  rooms[id].socket = io.of('/'+id);
-  console.log('room created with id: ',id);
+  rooms[id] = io.of('/'+id);
   rooms[id].on('connection',function(socket){
     console.log(socket.id);
     socket.on('key-event',function(data){
       rooms[id].emit('key-event', data);
     });
+    socket.emit('user-connect',{meta:'user join'});
   });
   res.redirect(id);
 });

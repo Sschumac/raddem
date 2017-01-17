@@ -1,5 +1,5 @@
 var keyMap = {};
-
+var p2psocket;
 var socket;
 window.onload = function() {
   console.log('starting main thread');
@@ -11,20 +11,27 @@ window.onload = function() {
 };
 function fetchPeers() {
   socket = io(window.location.pathname);
+  p2psocket = new P2P(socket);
   console.log(socket);
-  socket.on('key-event',function(response) {
-    console.log("response data ",response.data);
-    if (response.data.id !== socket.id) {
-      console.log("recieved code: ",response.data.code);
-      playAudio(response.data.code);
+  p2psocket.on('key-event',function(data) {
+    console.log("response data ",data);
+    console.log(p2psocket);
+
+    if (data.id !== p2psocket.socket.id) {
+      console.log("recieved code: ",data.code);
+      playAudio(data.code);
     }
+  });
+
+  p2psocket.on('user-connect',function(data){
+    p2psocket.upgrade();
   });
   
 }
 function handleKeyPress(e) {
   e = e || window.event;
   var code=e.keyCode;
-  socket.emit('key-event',{code:code,id:socket.id});
+  socket.emit('key-event',{code:code,id:p2psocket.socket.id});
   playAudio(code);
 }
 
