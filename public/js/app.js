@@ -1,7 +1,7 @@
 var keyMap = {}
 
 var socket;
-window.onload = function(){
+window.onload = function() {
   console.log('starting main thread')
   console.log('setting up keypress events')
   document.onkeypress = handleKeyPress
@@ -9,27 +9,26 @@ window.onload = function(){
   mapKeys();
   fetchPeers();
 }
-function fetchPeers(){
+function fetchPeers() {
   socket = io(window.location.pathname);
   console.log(socket)
-  socket.on('key-event',function(response){
+  socket.on('key-event',function(response) {
     console.log("response data ",response.data)
-    if (response.data.id !== socket.id){
+    if (response.data.id !== socket.id) {
       console.log("recieved code: ",response.data.code)
       playAudio(response.data.code)
     }
-  })
+  });
   
-
 }
-function handleKeyPress(e){
+function handleKeyPress(e) {
   e = e || window.event;
   var code=e.keyCode;
   socket.emit('key-event',{code:code,id:socket.id})
   playAudio(code)
 }
 
-function playAudio(code){
+function playAudio(code) {
   console.log('KEY: ',code)
   keyMap[code].audio.pause()
   keyMap[code].audio.currentTime=0;
@@ -37,7 +36,7 @@ function playAudio(code){
 
 }
 
-function mapKeys(){
+function mapKeys() {
   keyMap = {
     106:{
       label:'Kick',
