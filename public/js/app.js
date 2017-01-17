@@ -1,22 +1,22 @@
-var keyMap = {}
+var keyMap = {};
 
 var socket;
 window.onload = function() {
-  console.log('starting main thread')
-  console.log('setting up keypress events')
-  document.onkeypress = handleKeyPress
-  console.log('mapping keys')
+  console.log('starting main thread');
+  console.log('setting up keypress events');
+  document.onkeypress = handleKeyPress;
+  console.log('mapping keys');
   mapKeys();
   fetchPeers();
-}
+};
 function fetchPeers() {
   socket = io(window.location.pathname);
-  console.log(socket)
+  console.log(socket);
   socket.on('key-event',function(response) {
-    console.log("response data ",response.data)
+    console.log("response data ",response.data);
     if (response.data.id !== socket.id) {
-      console.log("recieved code: ",response.data.code)
-      playAudio(response.data.code)
+      console.log("recieved code: ",response.data.code);
+      playAudio(response.data.code);
     }
   });
   
@@ -24,15 +24,15 @@ function fetchPeers() {
 function handleKeyPress(e) {
   e = e || window.event;
   var code=e.keyCode;
-  socket.emit('key-event',{code:code,id:socket.id})
-  playAudio(code)
+  socket.emit('key-event',{code:code,id:socket.id});
+  playAudio(code);
 }
 
 function playAudio(code) {
-  console.log('KEY: ',code)
-  keyMap[code].audio.pause()
+  console.log('KEY: ',code);
+  keyMap[code].audio.pause();
   keyMap[code].audio.currentTime=0;
-  keyMap[code].audio.play()
+  keyMap[code].audio.play();
 
 }
 
@@ -68,5 +68,5 @@ function mapKeys() {
       key:'h',
       audio:new Audio('Samples/kick-stomp.wav')
     },
-  }
+  };
 }
