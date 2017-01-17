@@ -14,22 +14,46 @@ app.use(bodyparser.json());
 
 app.get('/',function(req,res){
   var id = shortid.generate();
-  rooms[id] = io.of('/'+id);
-  rooms[id].on('connection',function(socket){
-    console.log(socket.id);
-    socket.on('key-event',function(data){
-      rooms[id].emit('key-event', data);
+  rooms[id] = {
+    state:{
+      peerList:[],
+    },
+    io:{}
+  };
+  rooms[id].io = io.of('/'+id);
+  rooms[id].io.on('connection',function(client){
+
+    client.on('join',function(data){
+      rooms[id].state.peerList.push({
+        client:data,
+        serverID:client.id
+      });
+      rooms[id].io.emit('room-state',rooms[id].state);
     });
-    socket.emit('user-connect',{meta:'user join'});
+
+    client.on('key-event',function(data){
+      rooms[id].io.emit('key-event', data);
+    });
+
+    client.on('disconnect',function(){
+      rooms[id].state.peerList.forEach(function(c,i,a){
+        if (client.id === a[i].serverID){
+          a.splice(i,1);
+        }
+      });
+      rooms[id].io.emit('room-state',rooms[id].state);
+    });
+
+
   });
   res.redirect(id);
 });
 
-app.get('/:roomid',function(req,res){
-  res.type('text/html');
-  res.sendFile(__dirname+'/public/index.html');
-});
+  app.get('/:roomid',function(req,res){
+    res.type('text/html');
+    res.sendFile(__dirname+'/public/index.html');
+  });
 
-app.use(express.static(__dirname + '/public'));
+  app.use(express.static(__dirname + '/public'));
 
-server.listen(process.env.PORT || 8080);
+  server.listen(process.env.PORT || 8080);
