@@ -23,18 +23,19 @@ app.get('/',function(req,res){
   };
   rooms[id].io = io.of('/'+id);
   rooms[id].io.on('connection',function(client){
+    client.color = randomColor();
 
     client.on('join',function(data){
       rooms[id].state.peerList.push({
         client:data,
         serverID:client.id,
-        color:randomColor()
+        color:client.color
       });
       rooms[id].io.emit('room-state',rooms[id].state);
     });
 
     client.on('key-event',function(data){
-      rooms[id].io.emit('key-event', data);
+      rooms[id].io.emit('key-event',{code:data.code,color:client.color,id:data.id} );
     });
 
     client.on('disconnect',function(){

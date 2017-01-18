@@ -6,32 +6,39 @@ var appState = {
   id:'',
   peers:[]
 };
+var client_id;
 var p2psocket;
 var socket;
 var roomState = {};
+var my_color;
+
 window.onload = function() {
   document.onkeypress = handleKeyPress;
   mapKeys();
   fetchPeers();
   generateKeyboard();
 };
+
 function fetchPeers() {
+  client_id = generateUID();
   socket = io(window.location.pathname);
   p2psocket = new P2P(socket);
-  console.log(p2psocket);
   p2psocket.emit('join',{
     name:'anonymous',
-    id:generateUID()
+    id:client_id
   });
 
   p2psocket.on('room-state',function(data){
     roomState = data;
     document.getElementById('room-counter').innerHTML = "In this room: " + roomState.peerList.length;
+    my_color = data.peerList.find(function(x){
+      return (x.client.id === client_id);
+    }).color;
   });
   p2psocket.on('key-event',function(data) {
     if (data.id !== p2psocket.socket.id) {
       playAudio(data.code);
-      colorKey(data.code);
+      colorKey(String.fromCharCode(data.code),data.color);
     }
   });
 }
@@ -45,7 +52,7 @@ function handleKeyPress(e) {
   var code=e.keyCode;
   socket.emit('key-event',{code:code,id:p2psocket.socket.id});
   playAudio(code);
-  colorKey(String.fromCharCode(code),"red");
+  colorKey(String.fromCharCode(code),my_color);
 }
 
 function colorKey(code,color){
@@ -56,7 +63,6 @@ function colorKey(code,color){
   key.setAttribute('style','background-color:'+color);
 }
 function playAudio(code) {
-  console.log('KEY: ',code);
   keyMap[code].audio.pause();
   keyMap[code].audio.currentTime=0;
   keyMap[code].audio.play();
@@ -64,7 +70,6 @@ function playAudio(code) {
 
 function generateKeyboard(){
   for (var i = 0; i < keyMapArray.length; i++){
-    console.log('generating key',keyMapArray[i]);
     div = document.createElement('div');
     div.setAttribute('id',keyMapArray[i].key);
     keyLabel = document.createElement('p');
