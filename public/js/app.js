@@ -29,11 +29,13 @@ function fetchPeers() {
   });
 
   p2psocket.on('room-state',function(data){
+    console.log('new room state');
+    console.log(data);
     roomState = data;
-    document.getElementById('room-counter').innerHTML = "In this room: " + roomState.peerList.length;
     my_color = data.peerList.find(function(x){
       return (x.client.id === client_id);
     }).color;
+    updateUI();
   });
   p2psocket.on('key-event',function(data) {
     if (data.id !== p2psocket.socket.id) {
@@ -43,6 +45,23 @@ function fetchPeers() {
   });
 }
 
+function changeUsername(){
+  input = document.getElementById('user-input').value;
+  p2psocket.emit('username-change',{
+    id:client_id,
+    name:input,
+  });
+}
+
+function updateUI(){
+  document.getElementsByClassName('ul-l')[0].innerHTML = '';
+  roomState.peerList.forEach(function(x){
+    li = document.createElement('li');
+    li.innerHTML = x.client.name;
+    li.setAttribute('style','color:'+x.color);
+    document.getElementsByClassName('ul-l')[0].appendChild(li);
+  });
+}
 function generateUID(){
   return ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4);
 }
@@ -73,8 +92,11 @@ function generateKeyboard(){
     div = document.createElement('div');
     div.setAttribute('id',keyMapArray[i].key);
     keyLabel = document.createElement('p');
+    keyLabel.innerHTML = keyMapArray[i].key;
+    keyLabel.setAttribute('class','key-label');
     keySound = document.createElement('p');
     div.setAttribute('class','key');
+    div.appendChild(keyLabel);
     if (['q','w','e','r','t','y','u','i','o','p'].indexOf(keyMapArray[i].key) > -1){
       document.getElementsByClassName('row1')[0].appendChild(div);
     }

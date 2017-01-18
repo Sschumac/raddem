@@ -46,17 +46,27 @@ app.get('/',function(req,res){
       });
       rooms[id].io.emit('room-state',rooms[id].state);
     });
+    client.on('username-change',function(data){
+      if (data.name.length > 0){
+        rooms[id].state.peerList.find(function(x){
+          if(client.id === x.serverID){
+            return true;
+          }
+        }).client.name = data.name;
+        rooms[id].io.emit('room-state',rooms[id].state);
+      }});
+
 
 
   });
   res.redirect(id);
 });
 
-  app.get('/:roomid',function(req,res){
-    res.type('text/html');
-    res.sendFile(__dirname+'/public/index.html');
-  });
+app.get('/:roomid',function(req,res){
+  res.type('text/html');
+  res.sendFile(__dirname+'/public/index.html');
+});
 
-  app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
-  server.listen(process.env.PORT || 8080);
+server.listen(process.env.PORT || 8080);
