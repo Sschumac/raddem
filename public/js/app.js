@@ -26,11 +26,12 @@ function fetchPeers() {
 
   p2psocket.on('room-state',function(data){
     roomState = data;
-    console.log(roomState);
+    document.getElementById('room-counter').innerHTML = "In this room: " + roomState.peerList.length;
   });
   p2psocket.on('key-event',function(data) {
     if (data.id !== p2psocket.socket.id) {
       playAudio(data.code);
+      colorKey(data.code);
     }
   });
 }
