@@ -21,6 +21,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "randomcolor": "^0.4.4",
     "shortid": "^2.2.6",
     "socket.io": "^1.7.2",
     "socket.io-p2p": "^2.2.0",

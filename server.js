@@ -5,6 +5,7 @@ var bodyparser = require('body-parser');
 var io = require('socket.io').listen(server);
 var shortid = require('shortid');
 var p2p = require('socket.io-p2p-server').Server;
+var randomColor = require('randomcolor');
 
 io.use(p2p);
 
@@ -26,7 +27,8 @@ app.get('/',function(req,res){
     client.on('join',function(data){
       rooms[id].state.peerList.push({
         client:data,
-        serverID:client.id
+        serverID:client.id,
+        color:randomColor()
       });
       rooms[id].io.emit('room-state',rooms[id].state);
     });
