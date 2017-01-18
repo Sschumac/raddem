@@ -120,7 +120,7 @@ function mapKeys() {
     },
     102:{
       Label:'reso',
-      key:'q',
+      key:'f',
       audio:new Audio('Samples/reso.mp3')
     },
     103:{
@@ -130,68 +130,58 @@ function mapKeys() {
     },
     104:{
       Label:'kick-tape',
-      key:'q',
-      audio:new Audio('Samples/crash-tape.wav')
+      key:'h',
+      audio:new Audio('Samples/kick-cultivator.wav')
     },
-    113:{
-      Label:'Crash-tape',
-      key:'q',
-      audio:new Audio('Samples/crash-tape.wav')
+    106:{
+      Label:'kick-big',
+      key:'j',
+      audio:new Audio('Samples/kick-big.wav')
     },
-    113:{
-      Label:'Crash-tape',
-      key:'q',
-      audio:new Audio('Samples/crash-tape.wav')
+    107:{
+      Label:'kick-808',
+      key:'k',
+      audio:new Audio('Samples/kick-808.wav')
     },
-    113:{
-      Label:'Crash-tape',
-      key:'q',
-      audio:new Audio('Samples/crash-tape.wav')
+    108:{
+      Label:'kick-dry',
+      key:'l',
+      audio:new Audio('Samples/kick-dry.wav')
     },
-    113:{
-      Label:'Crash-tape',
-      key:'q',
-      audio:new Audio('Samples/crash-tape.wav')
+    122:{
+      Label:'bright',
+      key:'z',
+      audio:new Audio('Samples/bright.mp3')
     },
-    113:{
-      Label:'Crash-tape',
-      key:'q',
-      audio:new Audio('Samples/crash-tape.wav')
+    120:{
+      Label:'dawks',
+      key:'x',
+      audio:new Audio('Samples/dawks.mp3')
     },
-    113:{
-      Label:'Crash-tape',
-      key:'q',
-      audio:new Audio('Samples/crash-tape.wav')
+    99:{
+      Label:'vocoder',
+      key:'c',
+      audio:new Audio('Samples/vocoder.mp3')
     },
-    113:{
-      Label:'Crash-tape',
-      key:'q',
-      audio:new Audio('Samples/crash-tape.wav')
+    118:{
+      Label:'blip',
+      key:'v',
+      audio:new Audio('Samples/blip.mp3')
     },
-    113:{
-      Label:'Crash-tape',
-      key:'q',
-      audio:new Audio('Samples/crash-tape.wav')
+    98:{
+      Label:'hihat-electro',
+      key:'b',
+      audio:new Audio('Samples/hihat-electro.wav')
     },
-    113:{
-      Label:'Crash-tape',
-      key:'q',
-      audio:new Audio('Samples/crash-tape.wav')
+    110:{
+      Label:'clap-fat',
+      key:'n',
+      audio:new Audio('Samples/clap-fat.wav')
     },
-    113:{
-      Label:'Crash-tape',
-      key:'q',
-      audio:new Audio('Samples/crash-tape.wav')
-    },
-    113:{
-      Label:'Crash-tape',
-      key:'q',
-      audio:new Audio('Samples/crash-tape.wav')
-    },
-    113:{
-      Label:'Crash-tape',
-      key:'q',
-      audio:new Audio('Samples/crash-tape.wav')
-    },
+    109:{
+      Label:'hihat-ring',
+      key:'m',
+      audio:new Audio('Samples/hihat-ring.wav')
+    }
   };
 }
