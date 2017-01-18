@@ -12,6 +12,7 @@ window.onload = function() {
   document.onkeypress = handleKeyPress;
   mapKeys();
   fetchPeers();
+  generateKeyboard();
 };
 function fetchPeers() {
   socket = io(window.location.pathname);
@@ -49,6 +50,30 @@ function playAudio(code) {
   keyMap[code].audio.pause();
   keyMap[code].audio.currentTime=0;
   keyMap[code].audio.play();
+}
+
+function generateKeyboard(){
+  for (var key in keyMap){
+    div = document.createElement('div');
+    keyLabel = document.createElement('p');
+    keyLabel.textContent=keyMap[key].key;
+    keySound = document.createElement('p');
+    keySound.textContent=keyMap[key].Label;
+
+    if (['q','w','e','r','t','y','u','i','o','p'].indexOf(keyMap[key].key) > -1){
+      div.setAttribute('class','key row1');
+      document.getElementsByClassName('row1')[0].appendChild(div);
+    }
+    if (['a','s','d','f','g','h','j','k','l'].indexOf(keyMap[key].key) > -1){
+      div.setAttribute('class','key row2');
+      document.getElementsByClassName('row2')[0].appendChild(div);
+    }
+    if (['z','x','c','v','b','n','m'].indexOf(keyMap[key].key) > -1){
+      div.setAttribute('class','key row3');
+      document.getElementsByClassName('row3')[0].appendChild(div);
+    }
+  }
+
 }
 
 function mapKeys() {
