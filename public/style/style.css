@@ -2,5 +2,21 @@
   height:40px;
   width:40px;
   border-radius:5px;
-  border:5px solid black;
+  border:3px solid black;
+  display:inline-block;
+  margin-left:2px;
+  margin-right:2px;
 }
+
+.row1{
+
+}
+
+.row2{
+  padding-left:10px;
+}
+.row3{
+  padding-left:32px;
+}
+
+
