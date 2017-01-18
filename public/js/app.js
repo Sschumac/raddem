@@ -1,4 +1,5 @@
 var keyMap = {};
+var keyMapArray;
 var appState = {
   connected:0,
   name:'anonymous',
@@ -43,8 +44,16 @@ function handleKeyPress(e) {
   var code=e.keyCode;
   socket.emit('key-event',{code:code,id:p2psocket.socket.id});
   playAudio(code);
+  colorKey(String.fromCharCode(code),"red");
 }
 
+function colorKey(code,color){
+  key = document.getElementById(code+'');
+  setTimeout(function(key){
+   key.setAttribute('style','');
+  }.bind(this,key),200);
+  key.setAttribute('style','background-color:'+color);
+}
 function playAudio(code) {
   console.log('KEY: ',code);
   keyMap[code].audio.pause();
@@ -53,22 +62,20 @@ function playAudio(code) {
 }
 
 function generateKeyboard(){
-  for (var key in keyMap){
+  for (var i = 0; i < keyMapArray.length; i++){
+    console.log('generating key',keyMapArray[i]);
     div = document.createElement('div');
-    div.setAttribute('id',key);
+    div.setAttribute('id',keyMapArray[i].key);
     keyLabel = document.createElement('p');
-    keyLabel.textContent=keyMap[key].key;
     keySound = document.createElement('p');
-    keySound.textContent=keyMap[key].Label;
     div.setAttribute('class','key');
-
-    if (['q','w','e','r','t','y','u','i','o','p'].indexOf(keyMap[key].key) > -1){
+    if (['q','w','e','r','t','y','u','i','o','p'].indexOf(keyMapArray[i].key) > -1){
       document.getElementsByClassName('row1')[0].appendChild(div);
     }
-    if (['a','s','d','f','g','h','j','k','l'].indexOf(keyMap[key].key) > -1){
+    if (['a','s','d','f','g','h','j','k','l'].indexOf(keyMapArray[i].key) > -1){
       document.getElementsByClassName('row2')[0].appendChild(div);
     }
-    if (['z','x','c','v','b','n','m'].indexOf(keyMap[key].key) > -1){
+    if (['z','x','c','v','b','n','m'].indexOf(keyMapArray[i].key) > -1){
       document.getElementsByClassName('row3')[0].appendChild(div);
     }
   }
@@ -208,4 +215,116 @@ function mapKeys() {
       audio:new Audio('Samples/hihat-ring.wav')
     }
   };
+
+   keyMapArray = [
+    {
+      Label:'Crash-tape',
+      key:'q',
+    },
+    {
+      Label:'clap-fat',
+      key:'w',
+    },
+    {
+      Label:'hihat-808',
+      key:'e',
+    },
+    {
+      Label:'Kick-Classic',
+      key:'r',
+    },
+    {
+      Label:'hihat-electro',
+      key:'t',
+    },
+    {
+      Label:'perc-hollow',
+      key:'y',
+    },
+    {
+      Label:'snare-808',
+      key:'u',
+    },
+    {
+      Label:'snare-acoustic',
+      key:'i',
+    },
+    {
+      Label:'snare-analog',
+      key:'o',
+    },
+    {
+      Label:'perc-tambo',
+      key:'p',
+    },
+   {
+      Label:'NRG',
+      key:'a',
+    },
+    {
+      Label:'thin-tab',
+      key:'s',
+    },
+    {
+      Label:'strummer',
+      key:'d',
+    },
+    {
+      Label:'reso',
+      key:'f',
+    },
+    {
+      Label:'twist',
+      key:'g',
+    },
+    {
+      Label:'kick-tape',
+      key:'h',
+    },
+    {
+      Label:'kick-big',
+      key:'j',
+    },
+    {
+      Label:'kick-808',
+      key:'k',
+    },
+    {
+      Label:'kick-dry',
+      key:'l',
+    },
+    {
+      Label:'bright',
+      key:'z',
+    },
+    {
+      Label:'dawks',
+      key:'x',
+    },
+   {
+      Label:'vocoder',
+      key:'c',
+    },
+    {
+      Label:'blip',
+      key:'v',
+    },
+   {
+      Label:'hihat-electro',
+      key:'b',
+    },
+    {
+      Label:'clap-fat',
+      key:'n',
+    },
+    {
+      Label:'hihat-ring',
+      key:'m',
+    }
+  ];
+
+
+
+
+
 }
